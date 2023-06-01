@@ -25,9 +25,7 @@ def contact(request, contact_id):
       Contact, pk=contact_id, show=True
     )
 
-   if single_contact is None:
-       raise Http404()
-
+  
    context = {
         'contact': single_contact,
     }
