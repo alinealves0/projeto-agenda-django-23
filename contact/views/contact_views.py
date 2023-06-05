@@ -1,5 +1,5 @@
 from django.http import Http404
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 
 
 from contact.models import Contact
@@ -11,6 +11,26 @@ def index(request):
     context = {
         'contacts': contacts,
         'site_title': 'Contatos - '
+    }
+    
+    return render(
+        request,
+        'contact/index.html',
+        context
+    )
+
+
+def search(request):
+    search_value = request.GET.get('q', '').strip()
+
+    if search_value == '':
+        return redirect('contact:index')
+    
+    contacts = Contact.objects.filter(show=True).order_by('-id')[10:20]
+    
+    context = {
+        'contacts': contacts,
+        'site_title': 'Search - '
     }
     
     return render(
